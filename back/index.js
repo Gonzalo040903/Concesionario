@@ -20,7 +20,7 @@ app.use(cors());
 
 
 app.get('/vehiculos', (req, res) => {
-    res.send('Hola estoy funcando')
+    res.send(JSON.stringify(vehiculoArray));
 })
 
 
