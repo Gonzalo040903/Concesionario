@@ -1,5 +1,5 @@
 const express = require('express');
-const cor = require('cors');
+const cors = require('cors');
 
 const app = express()
 const port = 3000;
@@ -16,8 +16,16 @@ app.use(express.json({
 
 app.use(cors());
 
-app.get('/prueba', (req, res) => {
+
+
+app.get('/vehiculos', (req, res) => {
     res.send('Hola estoy funcando')
+})
+
+
+app.post('/vehiculos', (req, res) => {
+    console.log("test")
+    // res.send('Hola estoy funcando')
 })
 
 app.listen(port, () => {
