@@ -1,37 +1,40 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
-const app = express()
+const app = express();
 const port = 3000;
-let vehiculoArray = []
 
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-)
+mongoose.connect('mongodb://localhost:27017/vehiculos', { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(express.json({
-    type: "*/*"
-}))
+const vehiculoSchema = new mongoose.Schema({
+    marca: String,
+    modelo: String,
+    year: Number,
+    color: String,
+    motor: [{
+        combustible: String,
+        motor: String
+    }]
+});
 
+const Vehiculo = mongoose.model('Vehiculo', vehiculoSchema);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors());
 
+app.get('/vehiculos', async (req, res) => {
+    const vehiculos = await Vehiculo.find();
+    res.json(vehiculos);
+});
 
-
-app.get('/vehiculos', (req, res) => {
-    res.send(JSON.stringify(vehiculoArray));
-})
-
-
-app.post('/vehiculos', (req, res) => {
-    let vehiculo = req.body;
-    console.log(req.body);
-    vehiculoArray.push(vehiculo);
-    res.send(JSON.stringify("Guardado"));
-    console.log(vehiculoArray);
-})
+app.post('/vehiculos', async (req, res) => {
+    const vehiculo = new Vehiculo(req.body);
+    await vehiculo.save();
+    res.json("Guardado");
+});
 
 app.listen(port, () => {
-    console.log(`estoy ejecutandome en localhost:${port}`)
-})
+    console.log(`Estoy ejecutándome en localhost:${port}`);
+});
