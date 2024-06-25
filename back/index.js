@@ -13,3 +13,13 @@ app.use(
 app.use(express.json({
     type: "*/*"
 }))
+
+app.use(cors());
+
+app.get('/prueba', (req, res) => {
+    res.send('Hola estoy funcando')
+})
+
+app.listen(port, () => {
+    console.log(`estoy ejecutandome en localhost:${port}`)
+})
