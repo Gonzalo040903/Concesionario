@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express()
 const port = 3000;
+let vehiculoArray = []
 
 app.use(
     express.urlencoded({
@@ -24,8 +25,11 @@ app.get('/vehiculos', (req, res) => {
 
 
 app.post('/vehiculos', (req, res) => {
-    console.log("test")
-    // res.send('Hola estoy funcando')
+    let vehiculo = req.body;
+    console.log(req.body);
+    vehiculoArray.push(vehiculo);
+    res.send(JSON.stringify("Guardado"));
+    console.log(vehiculoArray);
 })
 
 app.listen(port, () => {
